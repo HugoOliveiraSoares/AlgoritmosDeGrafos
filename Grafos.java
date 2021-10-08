@@ -55,6 +55,10 @@ public class Grafos {
 	public int[][] getMatrizAdjacencias(){
 		return(this.matrizAdjacencias);
 	}
+
+	public int[][] getMatrizPesos(){
+		return this.matrizPesos;
+	}
 	
 	public int getGrauVertice(int vertice){
 		int grau = 0;
