@@ -4,9 +4,7 @@ Trabalho da máteria de Teoria de Grafos, com o objetivo de pesquisar sobre algo
 
 ## Tecnologias usadas:
 
-- Java 
-- Maven
-- Junit
+- Java
 
 ## Desenvolvido por:
 
