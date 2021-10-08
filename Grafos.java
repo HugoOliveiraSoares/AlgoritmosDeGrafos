@@ -83,7 +83,7 @@ public class Grafos {
 
 	public void lerArquivo(String nomearquivo) {
 		try {
-			RandomAccessFile arqEntrada = new RandomAccessFile(new File(nomearquivo), "r");
+			RandomAccessFile arqEntrada = new RandomAccessFile(new File("resources/" + nomearquivo), "r");
 
 			// Rotulo dos vertices
 			String linha = arqEntrada.readLine();
@@ -123,71 +123,6 @@ public class Grafos {
 			System.out.println("ERRO: Formato de numero invalido!");
 		}
 	}
-        
-    //------------------------------------------------------------------------------
-    // ALGORITMOS EM GRAFOS
-    //------------------------------------------------------------------------------
-    
-	//--- Busca em grafos
-	
-    /*public String buscaAmplitude(String verticeInicial){ 
-    	
-    }
-    private void BFS(int verticeInicial) {
-    	
-    }
-    */
-	
-    /*public String buscaProfundidade(String verticeInicial){ 
-    	
-    }
-    private void DFS(int verticeInicial) {
-    	
-    }
-    */
-	
-	//--- Caminhos minimos
-    
-    /*public String Dijkstra(String verticeInicial){ 
-    	
-    }
-    */
-
-    /*public String Bellman_Ford(String verticeInicial){ 
-    	
-    }
-    */
-	
-    /*public String Floyd_Warshall(String verticeInicial){
-    	
-    }
-    */
-	
-	//--- Arvore Geradora Minima (AGM)
-	
-    /*public String Kruskal(String verticeInicial){ 
-    	
-    }
-    */
-
-    /*public String Prim(String verticeInicial){ 
-    	
-    }
-    */
-	
-	//--- Fluxo maximo
-
-    /*public String Ford_Fulkerson(String verticeInicial){ 
-    	
-    }
-    */
-	
-	//--- Componentes fortemente conectados
-
-    /*public String Kosaraju(String verticeInicial){ 
-    	
-    }
-    */
 
     //------------------------------------------------------------------------------
     // METODOS AUXILIARES
