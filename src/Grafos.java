@@ -1,3 +1,4 @@
+package src;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,6 +141,14 @@ public class Grafos {
         return (res);
     }
 
+	public String exibirVetor(String[] vet) {
+		String res = "";
+		for (int i = 0; i < vet.length; i++) {
+			res += ((i < (vet.length - 1)) ? vet[i] + "-" : vet[i]);
+		}
+		return (res);
+	}
+
     public String exibirMatrix(int[][] mat) {
         String res = "";
         for (int i = 0; i < mat.length; i++) {
@@ -152,7 +161,7 @@ public class Grafos {
     }
     
 	public String toString(){
-		return(">>> Classe Grafos (G) <<<" + "\n\n" + 
+		return(">>> Classe src.Grafos (G) <<<" + "\n\n" +
 				"Matriz de adjacencias  :\n" + this.exibirMatrix(this.getMatrizAdjacencias()) + "\n" + 
 				"Numero de vertices (n) : " + this.getNumVertices() + "\n" + 
 				"Numero de arestas (e)  : " + this.getNumArestas() + "\n" + 
