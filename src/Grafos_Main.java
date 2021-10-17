@@ -6,7 +6,7 @@ public class Grafos_Main {
 	
 	public static void main(String[] args) {
 		
-		Grafos g1 = new Grafos("kruskal2.csv");
+		Grafos g1 = new Grafos("kruskal.csv");
 		
 		System.out.println(g1.toString()); // Exibe info do grafo G
 		
@@ -22,7 +22,6 @@ public class Grafos_Main {
 		//src.Grafos g3 = new src.Grafos("n4e5.csv");
 
 		Kruskal kruskal = new Kruskal(g1);
-		kruskal.geraArvoreMinima();
 
 	}
 
