@@ -6,9 +6,9 @@ public class Grafos_Main {
 	
 	public static void main(String[] args) {
 		
-		Grafos g1 = new Grafos("kruskal.csv");
+		Grafos g1 = new Grafos("kruskal2.csv");
 		
-		System.out.println(g1.toString()); // Exibe info do grafo G
+//		System.out.println(g1.toString()); // Exibe info do grafo G
 		
 		// Outro modo de obter e exibir a info do grafo G
 //		System.out.println( "Matriz do grafo K5:\n" + g1.exibirMatrix(g1.getMatrizAdjacencias()) );
@@ -22,6 +22,8 @@ public class Grafos_Main {
 		//src.Grafos g3 = new src.Grafos("n4e5.csv");
 
 		Kruskal kruskal = new Kruskal(g1);
+
+		System.out.println(g1.buscaProfundidade( 4, 1));
 
 	}
 
