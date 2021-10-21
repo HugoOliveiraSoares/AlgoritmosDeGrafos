@@ -2,6 +2,7 @@ package src.kruskal;
 
 import src.Grafos;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Kruskal {
@@ -45,37 +46,17 @@ public class Kruskal {
     }
 
     public void ordenaArestas(int[][] matrizPesos){
+
         //extrai os pesos das arestas junto com as suas conexões
         for (int i = 0; i < matrizPesos.length; i++) {
             for (int j = 0; j < matrizPesos.length; j++) {
                 if (matrizPesos[i][j] != 0) {
-                    pesoArestas.add(matrizPesos[i][j]);
                     vertices.add(new int[]{i,j});
                 }
             }
         }
 
-        // ordena as arestas em ordem crescente de pesos
-        int aux;
-        int[] aux2;
-        for(int i = 0; i < pesoArestas.size(); i++){
-            for(int k = 0; k < pesoArestas.size() - 1; k++){
-                if(pesoArestas.get(k) > pesoArestas.get(k + 1)){
-                    aux = pesoArestas.get(k);
-                    pesoArestas.set(k,pesoArestas.get(k+1));
-                    pesoArestas.set(k+1, aux);
-                    aux2 = vertices.get(k);
-                    vertices.set(k, vertices.get(k+1));
-                    vertices.set(k+1, aux2);
-                }
-            }
-        }
-
         System.out.println(">>> Grafo Ordenado <<< ");
-        for (int i = 0; i < pesoArestas.size(); i++) {
-            System.out.print(pesoArestas.get(i) + " ");
-        }
-
         System.out.println();
         vertices.forEach(vertice ->{
             for (int i = 0; i < vertice.length; i++) {
@@ -103,14 +84,6 @@ public class Kruskal {
 
     public void setGrafos(Grafos grafos) {
         this.grafos = grafos;
-    }
-
-    public List<Integer> getPesoArestas() {
-        return pesoArestas;
-    }
-
-    public void setPesoArestas(List<Integer> pesoArestas) {
-        this.pesoArestas = pesoArestas;
     }
 
     public List<int[]> getVertices() {
