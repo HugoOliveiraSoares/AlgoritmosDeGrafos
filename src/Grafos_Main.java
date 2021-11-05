@@ -22,6 +22,7 @@ public class Grafos_Main {
 		//src.Grafos g3 = new src.Grafos("n4e5.csv");
 
 		Kruskal kruskal = new Kruskal(g1);
+		kruskal.ordenaArestas(g1.getMatrizPesos());
 
 		System.out.println(g1.buscaProfundidade( 4, 1));
 
