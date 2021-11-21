@@ -5,7 +5,7 @@ import src.fila.FilaDinamica;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Stack;
+import java.util.*;
 
 public class Grafos {
 
@@ -100,7 +100,7 @@ public class Grafos {
 
             // Rotulo dos vertices
             String linha = arqEntrada.readLine();
-            String vertices[] = linha.split(";");
+            String[] vertices = linha.split(";");
             this.setVertices(vertices);
 
             this.setNumVertices(vertices.length); // Qtde de vertices
@@ -111,7 +111,7 @@ public class Grafos {
             linha = arqEntrada.readLine();
             int nLin = 0; // Primeia linha da matriz
             while (linha != null) {
-                String lin[] = linha.split(";");
+                String[] lin = linha.split(";");
                 for (int j = 0; j < lin.length; j++) {
                     if (lin[j].equals("0")) {
                         this.matrizPesos[nLin][j] = 0;
@@ -136,6 +136,10 @@ public class Grafos {
             System.out.println("ERRO: Formato de numero invalido!");
         }
     }
+
+    //------------------------------------------------------------------------------
+    // Busca em Amplitude e Busca em Profundidade
+    //------------------------------------------------------------------------------
 
     public Boolean buscaAmplitude(int verticeInicial) {
 
@@ -216,6 +220,131 @@ public class Grafos {
 
     }
 
+    //------------------------------------------------------------------------------
+    // Algoritmo de Kruskal
+    //------------------------------------------------------------------------------
+
+    public int[] kruskal(){
+
+        LinkedList<Integer> r = new LinkedList<>();
+        List<int[]> arestas =  new ArrayList<>(); // lista de arestas identificadas pelos pares de vértices(int[])
+        int[] p = new int[getNumVertices()]; // Vetor de parents, de onde eu vim
+        Arrays.fill(p, -1);
+
+        int vetorInicial = 0;
+        int anterior;
+
+        p[vetorInicial] = 0; // Escolha um vértice Vi e marque-o com 0 na posição i em P
+        r.add(vetorInicial);
+        anterior = r.getLast();
+
+        adjacentes(anterior, arestas, p);
+
+        while (contemMenos1(p)) {// Faça enquanto p == -1
+            if (anterior != r.getLast() ) {
+                adjacentes(r.getLast(), arestas, p);
+                anterior = r.getLast();
+            }
+
+            int[] vertices = menorAresta(arestas); // obtenha a menor aresta
+            if (!fechaCircuito(vertices[0], vertices[1], p)){
+                p[vertices[1]] = vertices[0]; // marque a posição j de p com o valor de i
+                r.add(vertices[1]);
+            }
+            arestas.remove(vertices);
+        }
+
+
+        return p;
+    }
+
+    private void adjacentes(int v, List<int[]> arestas, int[] p) {
+        for (int i = 0; i < getNumVertices(); i++) {
+            if (matrizPesos[v][i] != 0){
+                if (!estaAdicionado(v, i, p) || !containsAresta(v, i, arestas)){
+                    arestas.add(new int[]{v, i});
+                }
+            }
+        }
+    }
+
+    public int[] menorAresta(List<int[]> arestas){
+
+        // variaveis auxiliares para indentificação das arestas.
+        int vertice1 = arestas.get(0)[0], vertice2 = arestas.get(0)[1];
+
+        int vertices = 0;
+        int menor = matrizPesos[vertice1][vertice2]; // menor peso de aresta encontrado
+
+        for (int i = 1; i < arestas.size(); i++) {
+            vertice1 = arestas.get(i)[0];
+            vertice2 = arestas.get(i)[1];
+
+            if (matrizPesos[vertice1][vertice2] < menor){
+                menor = matrizPesos[vertice1][vertice2];
+                vertices = i;
+            }
+        }
+        return arestas.get(vertices);
+    }
+
+    public boolean fechaCircuito(int vertice, int buscado, int[] p) {
+
+        int n = p.length;
+        boolean[] marcado = new boolean[n];
+        int[] antecessor = new int[n];
+        marcado[vertice] = true;
+
+        for (int w = 0; w < n; w++) {
+            if (eAdjacente(vertice, w, p) && !marcado[w]){
+                antecessor[w] = vertice;
+                DFS(w, marcado, antecessor, n, p);
+            }
+        }
+        return marcado[buscado];
+    }
+
+    // Parte de busca e profundidade modificado para verificar se fecha circuito
+    public void DFS(int vertice, boolean[] marcado, int[] antecessor, int n, int[] p) {
+
+        Stack<Integer> pilha = new Stack<>(); // instanciar a pilha
+
+        marcado[vertice] = true;
+        pilha.push(vertice);// inserir na pilha
+
+        while(!pilha.isEmpty()) { // ver ser ta vazia
+            int w = pilha.pop();
+            for (int z = 0; z < n; z++) {
+                if (eAdjacente(w, z, p) && !marcado[z]) {
+                    antecessor[z] = w;
+                    marcado[z] = true;
+                    pilha.push(z);
+                }
+            }
+        }
+
+    }
+
+    // Verifica se dois vertices são adjacentes
+    private boolean eAdjacente(int v, int w, int[] vetor) {
+        return vetor[v] == w || vetor[w] == v;
+    }
+
+    // Verifica se já está adicionado na arvore (no vetor p)
+    private boolean estaAdicionado(int x, int y, int[] p) {
+        return p[x] == y || p[y] == x;
+    }
+
+    private boolean containsAresta(int vertice1, int vertice2, List<int[]> arestas) {
+
+        for (int[] vertices : arestas) {
+            if ((vertices[0] == vertice1 && vertices[1] == vertice2) ||
+                    (vertices[1] == vertice1 && vertices[0] == vertice2)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     //------------------------------------------------------------------------------
     // METODOS AUXILIARES
@@ -246,6 +375,15 @@ public class Grafos {
             res += ((i < (mat.length - 1)) ? "\n" : "");
         }
         return (res);
+    }
+
+    private boolean contemMenos1(int[] vetor) {
+        for (int x : vetor) {
+            if (x == -1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String toString() {
