@@ -325,7 +325,7 @@ public class Grafos {
 
     }
 
-    // Verifica se dois vertices são adjacentes
+    // Verifica se dois vertices são adjacentes na arvore (no vetor p)
     private boolean eAdjacente(int v, int w, int[] vetor) {
         return vetor[v] == w || vetor[w] == v;
     }
@@ -344,6 +344,72 @@ public class Grafos {
             }
         }
         return false;
+    }
+
+    //------------------------------------------------------------------------------
+    // Algoritmo de Dikstra
+    //------------------------------------------------------------------------------
+
+    public List<Integer> dijkstra(int v0){
+
+        List<Integer> borda = new ArrayList<>(); // proximos vértices candidatos a próxima escolha
+        borda.add(v0);
+
+        List<Integer> incluidos = new ArrayList<>(); // menores caminhos a partir do inicial
+
+//        int[] antecessor = new int[getNumVertices()]; // vértice antecessor de x no menor caminho
+//        Arrays.fill(antecessor, -1); // antecessor[x] = -1
+
+        int[] custo = new int[getNumVertices()]; // Custo do caminho até x
+        Arrays.fill(custo, Integer.MAX_VALUE); // custo[x] = infinito d
+        custo[v0] = 0;
+
+        int v = 0;
+        while (!borda.isEmpty()){
+
+            v = menorCusto(borda, custo); // Vértice da borda com o menor custo
+            incluidos.add(v); // insira v em incluidos
+            borda.remove((Integer) v); // retire v da borda
+
+            // todos vertices de G não pertencentes em incluidos
+            for (int x = 0; x < getNumVertices(); x++){
+                if (!incluidos.contains(x)){
+                    if ( ( eAdjacente(v,x, matrizAdjacencias) ) && ( custo[x] > custo[v] + pesoXparaY(v,x) ) ){
+                        custo[x] = custo[v] + pesoXparaY(v,x);
+                        borda.add(x); // insira x na borda
+//                        antecessor[x] = v;
+                    }
+                }
+            }
+        }
+
+        return incluidos;
+    }
+
+    // Vértice da borda com o menor custo
+    private int menorCusto(List<Integer> borda, int[] custo) {
+
+        int menorPeso = Integer.MAX_VALUE;
+        int vertice = 0;
+
+        for (int i : borda) {
+            if (custo[i] < menorPeso){
+                menorPeso = custo[i];
+                vertice = i;
+            }
+        }
+
+        return vertice;
+    }
+
+    // W(x, y): peso da aresta de x para y
+    private int pesoXparaY(int v, int x){
+        return matrizPesos[v][x];
+    }
+
+    // E(x, y): aresta de x para y
+    private boolean eAdjacente(int v, int w, int[][] vetor) {
+        return vetor[v][w] != 0;
     }
 
     //------------------------------------------------------------------------------

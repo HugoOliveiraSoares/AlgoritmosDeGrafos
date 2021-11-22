@@ -1,10 +1,12 @@
 package src;
 
+import java.util.List;
+
 public class Grafos_Main {
 	
 	public static void main(String[] args) {
 		
-		Grafos g1 = new Grafos("kruskal.csv");
+		Grafos g1 = new Grafos("dijkstra.csv");
 		
 //		System.out.println(g1.toString()); // Exibe info do grafo G
 		
@@ -19,17 +21,15 @@ public class Grafos_Main {
 		//src.Grafos g2 = new src.Grafos("n3e2.csv");
 		//src.Grafos g3 = new src.Grafos("n4e5.csv");
 
-//		Kruskal kruskal = new Kruskal(g1);
+//		int[] kruskal = g1.kruskal();
 //
-//		for (int i = 0; i < kruskal.getP().length; i++){
-//			System.out.println(i + "," + kruskal.getP()[i]);
+//		for (int i = 0; i < kruskal.length; i++){
+//			System.out.println(i + "," + kruskal[i]);
 //		}
 
-		int[] kruskal = g1.kruskal();
+		List<Integer> dijkstra = g1.dijkstra(0);
 
-		for (int i = 0; i < kruskal.length; i++){
-			System.out.println(i + "," + kruskal[i]);
-		}
+		System.out.println("incluidos " + dijkstra);
 
 //		System.out.println(g1.buscaProfundidade(2, 3));
 
