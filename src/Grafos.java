@@ -227,58 +227,61 @@ public class Grafos {
     public int[] kruskal(){
 
         LinkedList<Integer> r = new LinkedList<>();
-        List<int[]> arestas =  new ArrayList<>(); // lista de arestas identificadas pelos pares de vértices(int[])
+        List<List<Integer>> arestas =  new ArrayList<>(); // lista de arestas identificadas pelos pares de vértices(int[])
         int[] p = new int[getNumVertices()]; // Vetor de parents, de onde eu vim
-        Arrays.fill(p, -1);
-
-        int vetorInicial = 0;
+        Arrays.fill(p, -1); // n posições inicializadas com -1
         int anterior;
 
-        p[vetorInicial] = 0; // Escolha um vértice Vi e marque-o com 0 na posição i em P
-        r.add(vetorInicial);
+        p[3] = -2; // Escolha um vértice Vi e marque-o com 0 na posição i em P
+        r.add(3);
         anterior = r.getLast();
 
         adjacentes(anterior, arestas, p);
 
+        List<Integer> vertices;
         while (contemMenos1(p)) {// Faça enquanto p == -1
             if (anterior != r.getLast() ) {
-                adjacentes(r.getLast(), arestas, p);
+                adjacentes(r.getLast(), arestas, p); // obtem as arestas candidatas a próxima escolha
                 anterior = r.getLast();
             }
 
-            int[] vertices = menorAresta(arestas); // obtenha a menor aresta
-            if (!fechaCircuito(vertices[0], vertices[1], p)){
-                p[vertices[1]] = vertices[0]; // marque a posição j de p com o valor de i
-                r.add(vertices[1]);
+            vertices = menorAresta(arestas); // obtenha a aresta de menor peso
+            if (r.size() == 1){ // se é a primeira iteração não há arestas para formar circuitos
+                p[vertices.get(1)] = vertices.get(0); // marque a posição j de p com o valor de i
+                r.add(vertices.get(1));
+            }else {
+                if (!fechaCircuito(vertices.get(0), vertices.get(1), p)){
+                    p[vertices.get(1)] = vertices.get(0); // marque a posição j de p com o valor de i
+                    r.add(vertices.get(1));
+                }
             }
             arestas.remove(vertices);
         }
 
-
         return p;
     }
 
-    private void adjacentes(int v, List<int[]> arestas, int[] p) {
+    private void adjacentes(int v, List<List<Integer>> arestas, int[] p) {
         for (int i = 0; i < getNumVertices(); i++) {
             if (matrizPesos[v][i] != 0){
                 if (!estaAdicionado(v, i, p) || !containsAresta(v, i, arestas)){
-                    arestas.add(new int[]{v, i});
+                    arestas.add(List.of(v, i));
                 }
             }
         }
     }
 
-    public int[] menorAresta(List<int[]> arestas){
+    public List<Integer> menorAresta(List<List<Integer>> arestas){
 
         // variaveis auxiliares para indentificação das arestas.
-        int vertice1 = arestas.get(0)[0], vertice2 = arestas.get(0)[1];
+        int vertice1 = arestas.get(0).get(0), vertice2 = arestas.get(0).get(1);
 
         int vertices = 0;
         int menor = matrizPesos[vertice1][vertice2]; // menor peso de aresta encontrado
 
         for (int i = 1; i < arestas.size(); i++) {
-            vertice1 = arestas.get(i)[0];
-            vertice2 = arestas.get(i)[1];
+            vertice1 = arestas.get(i).get(0);
+            vertice2 = arestas.get(i).get(1);
 
             if (matrizPesos[vertice1][vertice2] < menor){
                 menor = matrizPesos[vertice1][vertice2];
@@ -335,15 +338,8 @@ public class Grafos {
         return p[x] == y || p[y] == x;
     }
 
-    private boolean containsAresta(int vertice1, int vertice2, List<int[]> arestas) {
-
-        for (int[] vertices : arestas) {
-            if ((vertices[0] == vertice1 && vertices[1] == vertice2) ||
-                    (vertices[1] == vertice1 && vertices[0] == vertice2)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean containsAresta(int vertice1, int vertice2, List<List<Integer>> arestas) {
+        return arestas.contains(List.of(vertice1, vertice2));
     }
 
     //------------------------------------------------------------------------------
