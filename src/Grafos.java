@@ -79,6 +79,14 @@ public class Grafos {
         return (grau);
     }
 
+    public void setMatrizAdjacencias(int[][] matrizAdjacencias) {
+        this.matrizAdjacencias = matrizAdjacencias;
+    }
+
+    public void setMatrizPesos(int[][] matrizPesos) {
+        this.matrizPesos = matrizPesos;
+    }
+
     //Grau de todos os vertices - OK!
     public int[] getGrausVertices() {
         this.grausVertices = new int[this.getNumVertices()];
@@ -207,16 +215,17 @@ public class Grafos {
     // Algoritmo de Kruskal
     //------------------------------------------------------------------------------
 
-    public int[] kruskal(){
+    public Grafos kruskal(int verticeInicial){
 
+        Grafos arvore = new Grafos(); // arvore geradora minima a ser criada
         LinkedList<Integer> r = new LinkedList<>();
         List<List<Integer>> arestas =  new ArrayList<>(); // lista de arestas identificadas pelos pares de vértices(int[])
         int[] p = new int[getNumVertices()]; // Vetor de parents, de onde eu vim
         Arrays.fill(p, -1); // n posições inicializadas com -1
         int anterior;
 
-        p[3] = -2; // Escolha um vértice Vi e marque-o com 0 na posição i em P
-        r.add(3);
+        p[verticeInicial] = -2; // Escolha um vértice Vi e marque-o com 0 na posição i em P
+        r.add(verticeInicial);
         anterior = r.getLast();
 
         adjacentes(anterior, arestas, p);
@@ -241,7 +250,25 @@ public class Grafos {
             arestas.remove(vertices);
         }
 
-        return p;
+        int[][] matrixPeso = new int[getNumVertices()][getNumVertices()];
+        int[][] matrixAdj = new int[getNumVertices()][getNumVertices()];
+        for (int i = 0; i < p.length; i++) {
+            if (p[i] == -2){
+                continue;
+            }
+            matrixPeso[p[i]][i] = this.matrizPesos[p[i]][i];
+            matrixPeso[i][p[i]] = this.matrizPesos[i][p[i]];
+            matrixPeso[p[i]][i] = 1;
+            matrixPeso[i][p[i]] = 1;
+        }
+
+        arvore.setNumVertices(getNumVertices());
+        arvore.setNumArestas(getNumArestas());
+        arvore.setVertices(this.vertices);
+        arvore.setMatrizAdjacencias(matrixAdj);
+        arvore.setMatrizPesos(matrixPeso);
+
+        return arvore;
     }
 
     private void adjacentes(int v, List<List<Integer>> arestas, int[] p) {
