@@ -329,15 +329,12 @@ public class Grafos {
     // Algoritmo de Dikstra
     //------------------------------------------------------------------------------
 
-    public List<Integer> dijkstra(int v0){
+    public HashMap<String, Integer> dijkstra(int v0){
 
         List<Integer> borda = new ArrayList<>(); // proximos vértices candidatos a próxima escolha
         borda.add(v0);
 
         List<Integer> incluidos = new ArrayList<>(); // menores caminhos a partir do inicial
-
-//        int[] antecessor = new int[getNumVertices()]; // vértice antecessor de x no menor caminho
-//        Arrays.fill(antecessor, -1); // antecessor[x] = -1
 
         int[] custo = new int[getNumVertices()]; // Custo do caminho até x
         Arrays.fill(custo, Integer.MAX_VALUE); // custo[x] = infinito d
@@ -356,13 +353,17 @@ public class Grafos {
                     if ( ( eAdjacente(v,x, matrizAdjacencias) ) && ( custo[x] > custo[v] + pesoXparaY(v,x) ) ){
                         custo[x] = custo[v] + pesoXparaY(v,x);
                         borda.add(x); // insira x na borda
-//                        antecessor[x] = v;
                     }
                 }
             }
         }
 
-        return incluidos;
+        HashMap<String, Integer> solucao = new HashMap<>();
+        for (int i = 0; i < custo.length; i++) {
+            solucao.put(vertices[i], custo[i]);
+        }
+
+        return solucao; // Retorna os vertices e os custos para chegar em nele a partir do inicial
     }
 
     // Vértice da borda com o menor custo
