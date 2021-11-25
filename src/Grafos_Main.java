@@ -1,38 +1,100 @@
 package src;
 
-import java.util.List;
+import java.util.Scanner;
 
 public class Grafos_Main {
-	
-	public static void main(String[] args) {
-		
-		Grafos g1 = new Grafos("dijkstra.csv");
-		
-//		System.out.println(g1.toString()); // Exibe info do grafo G
-		
-		// Outro modo de obter e exibir a info do grafo G
-		System.out.println( "Matriz do grafo:\n" + g1.exibirMatrix(g1.getMatrizAdjacencias()) );
-//		System.out.println( "Numero de vertices: " + g1.getNumVertices() );
-//		System.out.println( "Numero de arestas: " + g1.getNumArestas() );
-//		System.out.println( "Grau dos vertices: " + g1.exibirVetor(g1.getGrausVertices()) );
-//		System.out.println( "Grau do vertice 2: " + g1.getGrauVertice(2) );
-//		System.out.println( "Matriz de pesos: " + g1.exibirMatrix(g1.getMatrizPesos()));
 
-		//src.Grafos g2 = new src.Grafos("n3e2.csv");
-		//src.Grafos g3 = new src.Grafos("n4e5.csv");
+	public static void buscaEmProfundidade(){
 
-//		int[] kruskal = g1.kruskal();
-//
-//		for (int i = 0; i < kruskal.length; i++){
-//			System.out.println(i + "," + kruskal[i]);
-//		}
+		Grafos grafo = new Grafos("n4e5.csv");
 
-		List<Integer> dijkstra = g1.dijkstra(0);
+		System.out.println( "Numero de vertices: " + grafo.getNumVertices() );
+		System.out.println( "Numero de arestas: " + grafo.getNumArestas() );
+		System.out.println( "Matriz de pesos:\n" + grafo.exibirMatrix(grafo.getMatrizAdjacencias()) );
 
-		System.out.println("incluidos " + dijkstra);
-
-//		System.out.println(g1.buscaProfundidade(2, 3));
+		System.out.println("Grafo em Profundidade: " + grafo.buscaProfundidade( 1));
 
 	}
+
+	public static void buscaAmplitude(){
+
+		Grafos grafo = new Grafos("n4e5.csv");
+
+		System.out.println( "Numero de vertices: " + grafo.getNumVertices() );
+		System.out.println( "Numero de arestas: " + grafo.getNumArestas() );
+		System.out.println( "Matriz de pesos:\n" + grafo.exibirMatrix(grafo.getMatrizAdjacencias()) );
+
+		System.out.println("Grafo em Amplitude: " + grafo.buscaAmplitude(3));
+	}
+
+	public static void dijkstra(){
+
+		Grafos grafo = new Grafos("dijkstra.csv");
+
+		System.out.println( "Numero de vertices: " + grafo.getNumVertices() );
+		System.out.println( "Numero de arestas: " + grafo.getNumArestas() );
+		System.out.println( "Matriz de pesos:\n" + grafo.exibirMatrix(grafo.getMatrizAdjacencias()) );
+
+		System.out.println("Algoritmo de Dijkstra: " + grafo.dijkstra(2));
+	}
+
+	public static void fordFulkerson(){
+
+/* Dados para teste!!
+
+Matriz:
+0 16 13 0 0 0
+0 0  10 12 0 0
+0 4 0 0 14 0
+0 0 9 0 0 20
+0 0 0 7 0 4
+0 0 0 0 0 0
+
+		   Insira o número de nós: 6
+		   Insira o numero de fontes: 1
+		   Insira o numero de sorvedouros: 6
+		   Resposta: 23
+     */
+
+		int[][] matriz;
+		int nos;
+		int fonte;
+		int sorvedouro;
+		int fluxoMax;
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Insira o número de nós");
+		nos = scanner.nextInt();
+		matriz = new int[nos + 1][nos + 1];
+
+		System.out.println("Insira a matriz"); // COLOCA OS NUMERO DA MATRIZ SEM VIRGULA NA HORA DE PASSAR
+		for (int sourceVertex = 1; sourceVertex <= nos; sourceVertex++) {
+			for (int destinationVertex = 1; destinationVertex <= nos; destinationVertex++) {
+				matriz[sourceVertex][destinationVertex] = scanner.nextInt();
+			}
+		}
+
+		System.out.println("Insira o numero de fontes");
+		fonte= scanner.nextInt();
+
+		System.out.println("Insira o numero de sorvedouros");
+		sorvedouro = scanner.nextInt();
+
+		FordFulkerson fordFulkerson = new FordFulkerson(nos);
+		fluxoMax = fordFulkerson.fordFulkerson(matriz, fonte, sorvedouro);
+		System.out.println("O fluxo máximo de G é " + fluxoMax);
+		scanner.close();
+	}
+	
+	public static void main(String[] args) {
+
+		buscaEmProfundidade();
+		buscaAmplitude();
+		dijkstra();
+		fordFulkerson();
+
+	}
+
+
 
 }

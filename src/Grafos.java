@@ -143,8 +143,8 @@ public class Grafos {
 
     public Boolean buscaAmplitude(int verticeInicial) {
 
-        boolean[] marcado = new boolean[this.numVertices]; // A variável numVertices é da classe
-        int[] antecessor = new int[this.numVertices]; // A variável numVertices é da classe
+        boolean[] marcado = new boolean[getNumVertices()]; // A variável numVertices é da classe
+        int[] antecessor = new int[getNumVertices()]; // A variável numVertices é da classe
         FilaDinamica fila = new FilaDinamica();
 
         marcado[verticeInicial] = true;
@@ -165,29 +165,12 @@ public class Grafos {
 
     public boolean buscaProfundidade(int vertice) {
 
-        boolean[] marcado = new boolean[this.numVertices]; // A variável numVertices é da classe
-        int[] antecessor = new int[this.numVertices]; // A variável numVertices é da classe
+        boolean[] marcado = new boolean[getNumVertices()]; // A variável numVertices é da classe
+        int[] antecessor = new int[getNumVertices()]; // A variável numVertices é da classe
 
         marcado[vertice] = true;
 
         for (int coluna = 0; coluna <= marcado.length - 1; coluna++) {
-
-            if (vertice == coluna && !marcado[coluna]) {
-                antecessor[coluna] = vertice;
-                DFS(coluna);
-            }
-        }
-        return marcado[vertice];
-    }
-
-    public boolean buscaProfundidade(int vertice, int inicio) {
-
-        boolean[] marcado = new boolean[this.numVertices]; // A variável numVertices é da classe
-        int[] antecessor = new int[this.numVertices]; // A variável numVertices é da classe
-
-        marcado[vertice] = true;
-
-        for (int coluna = inicio; coluna <= marcado.length - 1; coluna++) {
 
             if (vertice == coluna && !marcado[coluna]) {
                 antecessor[coluna] = vertice;
