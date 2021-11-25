@@ -30,12 +30,30 @@ public class Grafos_Main {
 	public static void dijkstra(){
 
 		Grafos grafo = new Grafos("dijkstra.csv");
+		//Grafos ponderados
+//		Grafos grafo = new Grafos("dijkstra2.csv");
+//		Grafos grafo = new Grafos("dijkstra3.csv");
 
 		System.out.println( "Numero de vertices: " + grafo.getNumVertices() );
 		System.out.println( "Numero de arestas: " + grafo.getNumArestas() );
 		System.out.println( "Matriz de pesos:\n" + grafo.exibirMatrix(grafo.getMatrizAdjacencias()) );
 
-		System.out.println("Algoritmo de Dijkstra: " + grafo.dijkstra(2));
+		System.out.println("Algoritmo de Dijkstra: " + grafo.dijkstra(0));
+	}
+
+	public static void kruskal(){
+
+		Grafos grafo = new Grafos("kruskal2.csv");
+//		Grafos grafo = new Grafos("kruskal.csv"); // exemplo do Cormen
+
+		System.out.println( "Numero de vertices: " + grafo.getNumVertices() );
+		System.out.println( "Numero de arestas: " + grafo.getNumArestas() );
+		System.out.println( "Matriz de Adjacencias:\n" + grafo.exibirMatrix(grafo.getMatrizAdjacencias()) );
+
+		Grafos arvoreGeradora = grafo.kruskal(0);
+
+		System.out.println("Matriz de Adjacencias da Arvore Geradora Minima:\n" + arvoreGeradora.exibirMatrix(arvoreGeradora.getMatrizAdjacencias()));
+
 	}
 
 	public static void fordFulkerson(){
@@ -85,12 +103,13 @@ Matriz:
 		System.out.println("O fluxo máximo de G é " + fluxoMax);
 		scanner.close();
 	}
-	
+
 	public static void main(String[] args) {
 
 		buscaEmProfundidade();
 		buscaAmplitude();
 		dijkstra();
+		kruskal();
 		fordFulkerson();
 
 	}

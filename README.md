@@ -2,6 +2,11 @@
 
 Trabalho da máteria de Teoria de Grafos, com o objetivo de pesquisar sobre algoritmos de grafos.
 
+## Estrutura do projeto:
+resources -> onde estão os arquivos .csv com as matrizes de adjacencia
+
+src -> onde estão os algoritmos
+
 ## Tecnologias usadas:
 
 - Java

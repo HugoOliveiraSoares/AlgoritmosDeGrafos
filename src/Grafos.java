@@ -147,6 +147,7 @@ public class Grafos {
 
     //------------------------------------------------------------------------------
     // Busca em Amplitude e Busca em Profundidade
+    // Autor: Diego
     //------------------------------------------------------------------------------
 
     public Boolean buscaAmplitude(int verticeInicial) {
@@ -213,6 +214,7 @@ public class Grafos {
 
     //------------------------------------------------------------------------------
     // Algoritmo de Kruskal
+    // Autor: Hugo
     //------------------------------------------------------------------------------
 
     public Grafos kruskal(int verticeInicial){
@@ -354,6 +356,7 @@ public class Grafos {
 
     //------------------------------------------------------------------------------
     // Algoritmo de Dikstra
+    // Autor: Caio
     //------------------------------------------------------------------------------
 
     public HashMap<String, Integer> dijkstra(int v0){

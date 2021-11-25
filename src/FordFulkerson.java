@@ -1,7 +1,6 @@
 package src;
-//@Jonas Facul olha o pq seu codigo nao esta rodando pfv, pois temos que mandar isso para o professor 
 // Autor: Jonas Peres
-// Ford Fulkerson: algoritmo (guloso) que calcula o fluxo m�ximo de G
+// Ford Fulkerson: algoritmo (guloso) que calcula o fluxo máximo de G
 
 import java.util.LinkedList;
 import java.util.Queue;
